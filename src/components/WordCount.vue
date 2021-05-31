@@ -12,7 +12,7 @@
       max-rows="6"
     ></b-form-textarea>
 
-    <b-button variant="success" class="mt-2" style="width: 100%;" @click="counwords" id="counwords">Count words</b-button>
+    <b-button variant="success" class="mt-2" style="width: 100%;" @click="counWords" id="counwords">Count words</b-button>
 
   </b-col>
     <b-col> 
@@ -54,13 +54,13 @@ export default {
   name: 'WordCount',
   data() {
     return {
-      text: '',
+      text: 'asdsad. sadsd. dddd, ii, jjjj',
       words:{}
     };
   },
   methods: {
     stringToArray(text){
-      text = text.replace(/[.,!?'"(){}[\]`]/g, " ");
+      text = text.replace(/[.,!?'"(){}[\]`:;]/g, " ");
      
       text=text.toLowerCase();
       return text.trim().split(" ");
@@ -77,12 +77,33 @@ export default {
       tmp_text = tmp_text.replaceAll(rx , '');
       //trim spaces
       tmp_text=tmp_text.replace(/\s+/g, ' ');
-      tmp_text=tmp_text.trim();
-      //remove extra . and ,
-      this.text=tmp_text.replaceAll(". .",".").replaceAll(", ,",",").replaceAll(", .",".").replaceAll(". ,",".")
+      //remove first character if is (, . ! ? ; : } ] )
+      tmp_text=tmp_text.replace(/^(,|\.|!|\?|;|:|\]|\}|\)|>)/, '').trim();
+
+
+      // tmp_text=tmp_text.replace(/(!|@|#|\$|%|\^|&|\*|\)|\(|\+|=|\.|<|>|\{|\}|\[|\]|:|;|'|"|\\|\||~|`|_|-)\s?(!|@|#|\$|%|\^|&|\*|\)|\(|\+|=|\.|<|>|\{|\}|\[|\]|:|;|'|"|\\|\||~|`|_|-)/g, function(matched){
+
+      //replace multiple special character repeat
+      tmp_text=tmp_text.replace(/(,|\.|!|\?|;|:|\[|\]|\{|\}|\(|\)|\(|\)|'|"|\\|\||~|`|_|-)\s?(,|\.|!|\?|;|:|\[|\]|\{|\}|\(|\)|\(|\)|'|"|\\|\||~|`|_|-)/g, function(matched){
+        if (matched==", ," || matched==",," ) {
+          return ", ";
+        }else if (matched.startsWith(",")) {
+          return ". ";
+        }else
+        if (matched=="( )" || matched=="()" ||
+          matched=="\" \"" || matched=="\"\"" ||
+          matched=="' '" || matched=="''" ||
+          matched=="[ ]" || matched=="[]" ||
+          matched=="{ }" || matched=="{}" ) {
+          return "";
+        }else{
+          return matched.charAt(0);
+        }
+      });
+      this.text=tmp_text;
      
     },
-    counwords() {
+    counWords() {
       this.words={};
       if (this.text=="") {
         return;

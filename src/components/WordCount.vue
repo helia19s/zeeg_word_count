@@ -5,6 +5,7 @@
 
       <b-form-textarea
       id="textarea"
+      class="mt-5"
       v-model="text"
       placeholder="Enter something..."
       rows="6"
@@ -53,15 +54,14 @@ export default {
   name: 'WordCount',
   data() {
     return {
-      text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sit adipiscing.',
-      words:{},
-      //msg:""
+      text: '',
+      words:{}
     };
   },
   methods: {
     stringToArray(text){
       text = text.replace(/[.,!?'"(){}[\]`]/g, " ");
-     // this.msg=text;
+     
       text=text.toLowerCase();
       return text.trim().split(" ");
     },
@@ -73,17 +73,18 @@ export default {
       var rx = new RegExp("\\b" + word+ '\\b', "gi");
      // this.text = this.text.replace(rx, "$1" );
      var tmp_text = this.text;
+     // remove selected word
       tmp_text = tmp_text.replaceAll(rx , '');
-     tmp_text=tmp_text.replace(/\s+/g, ' ');
-     tmp_text=tmp_text.trim();
-     //tmp_text=tmp_text.replace(/.\s.|,\s,|,\s.|.\s,|!\s.|.\s!|.\s\?|\?\s./gi, "")
+      //trim spaces
+      tmp_text=tmp_text.replace(/\s+/g, ' ');
+      tmp_text=tmp_text.trim();
+      //remove extra . and ,
       this.text=tmp_text.replaceAll(". .",".").replaceAll(", ,",",").replaceAll(", .",".").replaceAll(". ,",".")
-     // this.msg=this.text;
+     
     },
     counwords() {
       this.words={};
       if (this.text=="") {
-        
         return;
       }
 

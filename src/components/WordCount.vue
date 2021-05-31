@@ -54,7 +54,7 @@ export default {
   name: 'WordCount',
   data() {
     return {
-      text: 'asdsad. sadsd. dddd, ii, jjjj',
+      text: '',
       words:{}
     };
   },

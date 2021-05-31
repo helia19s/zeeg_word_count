@@ -33,8 +33,6 @@ describe('WordCount test', () => {
     const button = wrapper.find('#counwords');
     await  button.trigger('click');
     
-    //expect(JSON.stringify(vm.words)).toBe('{"lorem":1,"ipsum":1,"dolor":1,"sit":2,"amet":1,"consectetuer":1,"adipiscing":2,"elit":1}');
-
     const delete_button = wrapper.find("#w-lorem");
     await  delete_button.trigger('click');
 

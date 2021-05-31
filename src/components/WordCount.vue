@@ -60,31 +60,32 @@ export default {
   },
   methods: {
     stringToArray(text){
-      text = text.replace(/[.,!?'"(){}[\]`:;]/g, " ");
+      text = text.replace(/[.,!?'"(){}[\]`:;؟،]/gu, " ");
      
       text=text.toLowerCase();
       return text.trim().split(" ");
     },
+
     removeWord(word){
       var tmp=this.words;
       delete tmp.[word];
       this.words=tmp;
 
-      var rx = new RegExp("\\b" + word+ '\\b', "gi");
+      var rx = new RegExp("(?<=[\\s,.:;\"'،؟]|^)" + (word)+ "(?=[\\s,.:;\"'،؟]|$)", "gui");
      // this.text = this.text.replace(rx, "$1" );
      var tmp_text = this.text;
      // remove selected word
       tmp_text = tmp_text.replaceAll(rx , '');
       //trim spaces
-      tmp_text=tmp_text.replace(/\s+/g, ' ');
+      tmp_text=tmp_text.replace(/\s+/gu, ' ');
       //remove first character if is (, . ! ? ; : } ] )
-      tmp_text=tmp_text.replace(/^(,|\.|!|\?|;|:|\]|\}|\)|>)/, '').trim();
+      tmp_text=tmp_text.replace(/^(,|\.|!|\?|;|:|\]|\}|\)|>|،|؟)/gu, '').trim();
 
 
       // tmp_text=tmp_text.replace(/(!|@|#|\$|%|\^|&|\*|\)|\(|\+|=|\.|<|>|\{|\}|\[|\]|:|;|'|"|\\|\||~|`|_|-)\s?(!|@|#|\$|%|\^|&|\*|\)|\(|\+|=|\.|<|>|\{|\}|\[|\]|:|;|'|"|\\|\||~|`|_|-)/g, function(matched){
 
       //replace multiple special character repeat
-      tmp_text=tmp_text.replace(/(,|\.|!|\?|;|:|\[|\]|\{|\}|\(|\)|\(|\)|'|"|\\|\||~|`|_|-)\s?(,|\.|!|\?|;|:|\[|\]|\{|\}|\(|\)|\(|\)|'|"|\\|\||~|`|_|-)/g, function(matched){
+      tmp_text=tmp_text.replace(/(,|\.|!|\?|;|:|\[|\]|\{|\}|\(|\)|\(|\)|'|"|\\|\||~|`|_|-|،|؟)\s?(,|\.|!|\?|;|:|\[|\]|\{|\}|\(|\)|\(|\)|'|"|\\|\||~|`|_|-|،|؟)/gu, function(matched){
         if (matched==", ," || matched==",," ) {
           return ", ";
         }else if (matched.startsWith(",")) {
